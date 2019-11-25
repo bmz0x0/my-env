@@ -1,0 +1,6 @@
+neobundle.vim
+vim-autoclose
+vim-javascript
+vim-jsdoc
+vim-node
+vim-quickrun

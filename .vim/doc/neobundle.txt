@@ -1,0 +1,222 @@
+*neobundle.txt*	Ultimate Vim package manager
+
+Version: 0.1
+Author : Shougo <Shougo.Matsu at gmail.com>
+License: MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+CONTENTS					*neobundle-contents*
+
+Introduction		|neobundle-introduction|
+Usage			|neobundle-usage|
+Install			|neobundle-install|
+Interface		|neobundle-interface|
+  Commands		  |neobundle-commands|
+Configulation Examples	|neobundle-examples|
+Unite sources		|neobundle-unite-sources|
+Changelog		|neobundle-changelog|
+
+==============================================================================
+INTRODUCTION					*neobundle-introduction*
+
+*neobundle.vim* is ultimate Vim package manager.
+This plugin is based on Vundle.vim(https://github.com/gmarik/vundle).
+But some features is added.
+For example:
+ * Use vimproc when vimproc is installed.
+ * unite.vim interface.
+
+==============================================================================
+USAGE						*neobundle-usage*
+
+Refer to setting examples:
+|neobundle-examples|
+
+To update, run this command.
+>
+	:NeoBundleInstall!
+<
+To use unite.vim interface, use this command(required vimproc and unite.vim
+plugin).
+>
+	:Unite neobundle/install:!
+<
+This plugin setting is compatible with Vundle.vim :-)
+
+==============================================================================
+INSTALL						*neobundle-install*
+
+In first, git clone from repository.
+>
+	git clone git@github.com:Shougo/neobundle.vim.git
+<
+
+And path to repository directory.
+>
+	set runtimepath+='path to neobundle directory'
+<
+==============================================================================
+INTERFACE					*neobundle-interface*
+
+------------------------------------------------------------------------------
+COMMANDS 					*neobundle-commands*
+
+:NeoBundle {repository} [{revision}]		*:Neobundle*
+		Configure neobundle.
+
+		Examples:
+>
+		NeoBundle 'git_repository_uri'
+		NeoBundle 'script_name'
+		NeoBundle 'tpope/vim-fugitive'
+		NeoBundle 'http://github.com/tpope/vim-fugitive.git'
+		NeoBundle 'http://github.com/tpope/vim-fugitive.git'
+		NeoBundle 'muttator', {'type' : 'nosync'}
+		NeoBundle 'http://svn.macports.org/repository/macports/contrib/mpvim/'
+		NeoBundle 'https://bitbucket.org/ns9tks/vim-fuzzyfinder'
+<
+		Revision lock is supported.
+		Note: Restore revision lock is manually. Or set to revision
+		"master".
+>
+		NeoBundle 'Shougo/vimshell', '3787e5'
+		NeoBundle 'Shougo/vimshell', 'master'
+<
+:NeoBundleInstall [{repository}]			*:NeoBundleInstall*
+		Install {repository} plugins.
+		If {repository} is ommited, all configured plugin is installed.
+
+:NeoBundleInstall! [{repository}] 			*:NeoBundleInstall!*
+		Install and update {repository} plugins.
+		If {repository} is ommited, all configured plugin is installed
+		and updated.
+
+:NeoBundleClean [{bang} [{repository}...]] 			*:NeoBundleWithCurrentDir*
+		Remove not configured plugins. If {bang} is added, force remove
+		plugins. If {repository}s are added, remove {repository}s
+		plugins.
+
+==============================================================================
+EXAMPLES					*neobundle-examples*
+>
+	filetype off
+	
+	if has('vim_starting')
+	  set runtimepath+='path to neobundle directory'
+	
+	  call neobundle#rc(expand('~/.bundle'))
+	endif
+	
+	NeoBundle 'git://github.com/Shougo/clang_complete.git'
+	NeoBundle 'git://github.com/Shougo/echodoc.git'
+	NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+	NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
+	NeoBundle 'git://github.com/Shougo/unite.vim.git'
+	NeoBundle 'git://github.com/Shougo/vim-vcs.git'
+	NeoBundle 'git://github.com/Shougo/vimfiler.git'
+	NeoBundle 'git://github.com/Shougo/vimshell.git'
+	NeoBundle 'git://github.com/Shougo/vinarise.git'
+	
+	filetype plugin on
+	filetype indent on
+<
+==============================================================================
+UNITE SOURCES						*neobundle-unite-sources*
+
+Here let me explain about a source for |unite| provided in neobundle.
+
+							*neobundle-unite-source-neobundle*
+neobundle
+		Nominates bundles as a candidate.
+		This source required |vimproc| plugin.
+		http://github.com/Shougo/vimproc
+
+							*neobundle-unite-source-neobundle-install*
+neobundle/install
+		Install configured plugins.
+		This source required |vimproc| plugin.
+		http://github.com/Shougo/vimproc
+
+		If argment is bang(!), install and update all plugins.
+
+		Source arguments:
+		bundle names.
+
+		Example:
+>
+		:Unite neobundle/install:!
+		:Unite neobundle/install:neocomplcache
+		:Unite neobundle/install:neocomplcache:unite.vim
+<
+Actions of each sources
+
+neobundle					*unite-action-neobundle*
+	update		Update bundles(Default action)
+	delete		Delete bundles
+	reinstall	Reinstall bundles
+
+==============================================================================
+CHANGELOG					*neobundle-changelog*
+
+2011-10-26
+- Improved lock revision.
+- Fixed sync.
+
+2011-10-25
+- Improved install message.
+- Fixed lock revision.
+
+2011-10-23
+- Fixed vimproc check.
+- Improved neobundle/install source status messages.
+
+2011-10-19
+- Fixed documentation.
+- Improved NeoBundleClean.
+- Fixed :NeoBundleInstall bug.
+- Improved :NeoBundleClean.
+- Improved detect error.
+- Added neobundle source.
+
+2011-10-18
+- Refactored.
+- Fixed examples.
+
+2011-10-17
+- Improved neobundle source.
+
+2011-10-06
+- Supported revision.
+
+2011-09-25
+- Supported Subversion and Mercurial.
+
+2011-09-24
+- Fixed parse name.
+
+2011-09-19
+- Refactored local variable names.
+- Fixed installer.
+
+2011-09-18
+- Added documentation.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:
